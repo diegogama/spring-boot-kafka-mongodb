@@ -7,6 +7,7 @@ import java.util.Map;
 import com.product.model.Product;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -19,18 +20,19 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @Configuration
 public class KafkaConfig {
 
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupID;
+
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    private String bootstrapServers;
+
     @Bean
     public ConsumerFactory<String, Product> consumerFactory()
     {
 
-        // Creating a map of string-object type
         Map<String, Object> config = new HashMap<>();
-
-        // Adding the Configuration
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "127.0.0.1:9092");
-        config.put(ConsumerConfig.GROUP_ID_CONFIG,
-                "group_id");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupID);
         config.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
@@ -38,13 +40,11 @@ public class KafkaConfig {
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 JsonDeserializer.class);
 
-        // Returning message in JSON format
         return new DefaultKafkaConsumerFactory<>(
                 config, new StringDeserializer(),
                 new JsonDeserializer<>(Product.class));
     }
 
-    // Creating a Listener
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String,
             Product>

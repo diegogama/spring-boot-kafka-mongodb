@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Component
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "product",
-            groupId = "group_id",
+    @KafkaListener(topics = "${topic.name}",
+            groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "productListener")
 
     public void
