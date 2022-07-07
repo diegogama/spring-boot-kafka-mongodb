@@ -24,7 +24,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void sendMessageKafka(Product product){
         LOGGER.info("Sending product='{}' to topic='{}'", product, TOPIC);
-
         kafkaTemplate.send(TOPIC, product);
     }
 
