@@ -10,5 +10,6 @@ POST: http://localhost:8080/product
 
 }
 
-![image](https://user-images.githubusercontent.com/6165929/177669091-a21f4062-21ed-4f02-873c-d6b3a8a96665.png)
+![image](https://user-images.githubusercontent.com/6165929/177670987-59c06107-d332-40f9-9ead-f92f60efb053.png)
+
 
